@@ -35,9 +35,27 @@ public:
         display();
     }
 
+    void choose_weapon(){
+        while (weapon_level > 3){ // choose a weapon randomly
+            int weapon_level = rand() % 10 + 1; 
+        }
+
+    }
 };
 
-int possibilty(int chance) {
+class weapons{
+public:
+    string name;
+    string transformer;
+    int damage;
+    int accuracy;
+
+    weapons(string name, string t, int damage , int accuracy) : name(name), transformer(t), damage(damage), accuracy(accuracy) {}
+
+
+};
+
+bool possibilty(int chance) {
     int rand_number =  rand() % 100 + 1; //Random number between 1 and 100
     return rand_number <= chance;
 }
@@ -47,6 +65,22 @@ int main() {
     
     transformer optimus("Optimus Prime");
     transformer megatron("Megatron");
+
+    weapons ion_rifle("Ion rifle", "Optimus Prime", 6 , 100);
+    weapons energon_swords("Energon swords" , "Optimus Prime", 12, 80);
+    weapons shoulder_canon("Shoulder canon" , "Optimus Prime", 45, 25);
+
+    weapons fusion_canon("Fusion canon", "Megatron", 9, 90);
+    weapons fusion_sowrd("Fusion sowrd", "Megatron", 18, 70);
+    weapons tank_mode("Tank mode", "Megatron" , 60 ,15);
+
+    while (optimus.is_alive() && megatron.is_alive()) {
+
+        optimus.attack(megatron);
+        if (megatron.is_alive()) {
+            megatron.attack(optimus);
+        }
+    }
 
     return 0;
 }
