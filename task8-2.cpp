@@ -43,9 +43,6 @@ public:
         health -= damage;
         if (health < 0) health = 0; 
     }
-    // virtual void display(transformer &target) = 0;
-
-    // virtual void attack(transformer &target) = 0; // the "&" is to pass the reference and not a copy 
 
     bool possibilty(int chance) {
         int rand_number =  rand() % 100 + 1; //Random number between 1 and 100
