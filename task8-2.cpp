@@ -4,26 +4,25 @@
 using namespace std;
 
 class weapon{
-private:
+    private:
     string name;
     int damage;
     int accuracy;
-
-public:
-
+    
+    public:
+    
     weapon(){}
     weapon(string name, int damage , int accuracy) : name(name), damage(damage), accuracy(accuracy) {}
-
+    
     //getters
     string get_name() {return name;}
     int get_damage() {return damage;}
     int get_accuracy() {return accuracy;}
-
-
+    
+    
 };
 
 class transformer { //abstract class
-
 protected:
     int health;
     string name;
@@ -44,26 +43,25 @@ public:
         health -= damage;
         if (health < 0) health = 0; 
     }
-    virtual void display(transformer &target) = 0;
+    // virtual void display(transformer &target) = 0;
 
-    virtual void attack(transformer &target) = 0; // the "&" is to pass the reference and not a copy 
+    // virtual void attack(transformer &target) = 0; // the "&" is to pass the reference and not a copy 
 
     bool possibilty(int chance) {
-    int rand_number =  rand() % 100 + 1; //Random number between 1 and 100
-    return rand_number <= chance;
+        int rand_number =  rand() % 100 + 1; //Random number between 1 and 100
+        return rand_number <= chance;
     }
-
+    
     // getters
     string get_name() {return name;}
     int get_health() {return health;}
-
+    
 };
 
 class optimus : public transformer{
 
 weapon weapons_list[3];
 weapon power;
-
 
 public:
     optimus() 
@@ -74,11 +72,10 @@ public:
     void display(transformer &target){
         cout << name << " hit " << target.get_name() << " with " << power.get_name() << "!!" << endl;
         cout << target.get_name() << " health is " << target.get_health() << endl;
-        
+        cout << "______________________________________________________" << endl;
     }
-
-
-    void attack(transformer &target) override{
+    
+    void attack(transformer &target) {
         power = weapons_list[choose_weapon()];
         if (possibilty(power.get_accuracy()) == true){
             target.take_damage(power.get_damage());
@@ -88,8 +85,6 @@ public:
             cout << name << " missed!" << endl;
         }
     }
-
-
 };
 
 class mega : public transformer{
@@ -106,11 +101,10 @@ public:
     void display(transformer &target){
         cout << name << " hit " << target.get_name() << " with " << power.get_name() << "!!" << endl;
         cout << target.get_name() << " health is " << target.get_health() << endl;
-        
+        cout << "______________________________________________________" << endl;
     }
-
-
-    void attack(transformer &target) override{
+    
+    void attack(transformer &target) {
         power = weapons_list[choose_weapon()];
         if (possibilty(power.get_accuracy()) == true){
             target.take_damage(power.get_damage());
