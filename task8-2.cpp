@@ -1,7 +1,10 @@
 #include <iostream>
+#include <string>
+#include <ctime>
 using namespace std;
 
-class transformer {\
+
+class transformer { //abstract class
 private:
     int weapon_level;
 
@@ -24,16 +27,7 @@ public:
         cout << name << "attacked!" << endl;
     }
 
-    void attack(transformer &target) {
-        while (weapon_level > 3){ // choose a weapon randomly
-            int weapon_level = rand() % 10 + 1; 
-        }
-        if (weapon_level == 1){
-            
-        }
-        target.take_damage(10);
-        display();
-    }
+    virtual void attack(transformer &target) {}
 
     void choose_weapon(){
         while (weapon_level > 3){ // choose a weapon randomly
@@ -41,6 +35,19 @@ public:
         }
 
     }
+};
+
+class optimus : public transformer{
+public:
+    optimus() : transformer("Optimus Prime") {}
+
+
+};
+
+class mega : public transformer{
+public:
+    mega() : transformer("Megatron") {}
+
 };
 
 class weapons{
@@ -63,8 +70,8 @@ bool possibilty(int chance) {
 int main() {
     srand(time(0));  // Initialize random number generator
     
-    transformer optimus("Optimus Prime");
-    transformer megatron("Megatron");
+    optimus optimus_prime;
+    mega megatron;
 
     weapons ion_rifle("Ion rifle", "Optimus Prime", 6 , 100);
     weapons energon_swords("Energon swords" , "Optimus Prime", 12, 80);
@@ -74,13 +81,13 @@ int main() {
     weapons fusion_sowrd("Fusion sowrd", "Megatron", 18, 70);
     weapons tank_mode("Tank mode", "Megatron" , 60 ,15);
 
-    while (optimus.is_alive() && megatron.is_alive()) {
+    // while (optimus.is_alive() && megatron.is_alive()) {
 
-        optimus.attack(megatron);
-        if (megatron.is_alive()) {
-            megatron.attack(optimus);
-        }
-    }
+    //     optimus.attack(megatron);
+    //     if (megatron.is_alive()) {
+    //         megatron.attack(optimus);
+    //     }
+    // }
 
     return 0;
 }
