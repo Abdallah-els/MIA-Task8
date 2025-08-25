@@ -4,20 +4,27 @@
 using namespace std;
 
 class weapon{
-public:
+private:
     string name;
     int damage;
     int accuracy;
 
+public:
+
     weapon(){}
     weapon(string name, int damage , int accuracy) : name(name), damage(damage), accuracy(accuracy) {}
+
+    //getters
+    string get_name() {return name;}
+    int get_damage() {return damage;}
+    int get_accuracy() {return accuracy;}
 
 
 };
 
 class transformer { //abstract class
 
-public:
+protected:
     int health;
     string name;
     
@@ -44,7 +51,12 @@ public:
     bool possibilty(int chance) {
     int rand_number =  rand() % 100 + 1; //Random number between 1 and 100
     return rand_number <= chance;
-}
+    }
+
+    // getters
+    string get_name() {return name;}
+    int get_health() {return health;}
+
 };
 
 class optimus : public transformer{
@@ -60,18 +72,16 @@ public:
     {}
 
     void display(transformer &target){
-        cout << name << " hit " << target.name << " with " << power.name << "!!" << endl;
-        cout << target.name << " health is " << target.health << endl;
-        if (! is_alive()){
-            cout << target.name << " is dead. " << name << " won" << endl;
-        }
+        cout << name << " hit " << target.get_name() << " with " << power.get_name() << "!!" << endl;
+        cout << target.get_name() << " health is " << target.get_health() << endl;
+        
     }
 
 
     void attack(transformer &target) override{
         power = weapons_list[choose_weapon()];
-        if (possibilty(power.accuracy) == true){
-            target.take_damage(power.damage);
+        if (possibilty(power.get_accuracy()) == true){
+            target.take_damage(power.get_damage());
             display(target);
         }
         else{
@@ -94,18 +104,16 @@ public:
     {}
 
     void display(transformer &target){
-        cout << name << " hit " << target.name << " with " << power.name << "!!" << endl;
-        cout << target.name << " health is " << target.health << endl;
-        if (! is_alive()){
-            cout << target.name << " is dead. " << name << " won" << endl;
-        }
+        cout << name << " hit " << target.get_name() << " with " << power.get_name() << "!!" << endl;
+        cout << target.get_name() << " health is " << target.get_health() << endl;
+        
     }
 
 
     void attack(transformer &target) override{
         power = weapons_list[choose_weapon()];
-        if (possibilty(power.accuracy) == true){
-            target.take_damage(power.damage);
+        if (possibilty(power.get_accuracy()) == true){
+            target.take_damage(power.get_damage());
             display(target);
         }
         else{
