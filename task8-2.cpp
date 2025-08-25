@@ -3,6 +3,16 @@
 #include <ctime>
 using namespace std;
 
+class weapon{
+public:
+    string name;
+    int damage;
+    int accuracy;
+
+    weapon(string name, int damage , int accuracy) : name(name), damage(damage), accuracy(accuracy) {}
+
+
+};
 
 class transformer { //abstract class
 private:
@@ -38,29 +48,30 @@ public:
 };
 
 class optimus : public transformer{
+
+weapon weapons[3];
+
 public:
-    optimus() : transformer("Optimus Prime") {}
+    optimus() 
+    : transformer("Optimus Prime"), 
+    weapons{weapon("Ion rifle", 6 , 100), weapon("Energon swords" , 12, 80), weapon("Shoulder canon" , 45, 25)} 
+    {}
 
 
 };
 
 class mega : public transformer{
+
+weapon weapons[3];
+
 public:
-    mega() : transformer("Megatron") {}
+    mega()
+     : transformer("Megatron"),
+    weapons{weapon("Fusion canon", 9, 90), weapon("Fusion sowrd", 18, 70), weapon("Tank mode", 60 ,15)} 
+    {}
 
 };
 
-class weapons{
-public:
-    string name;
-    string transformer;
-    int damage;
-    int accuracy;
-
-    weapons(string name, string t, int damage , int accuracy) : name(name), transformer(t), damage(damage), accuracy(accuracy) {}
-
-
-};
 
 bool possibilty(int chance) {
     int rand_number =  rand() % 100 + 1; //Random number between 1 and 100
@@ -73,13 +84,10 @@ int main() {
     optimus optimus_prime;
     mega megatron;
 
-    weapons ion_rifle("Ion rifle", "Optimus Prime", 6 , 100);
-    weapons energon_swords("Energon swords" , "Optimus Prime", 12, 80);
-    weapons shoulder_canon("Shoulder canon" , "Optimus Prime", 45, 25);
-
-    weapons fusion_canon("Fusion canon", "Megatron", 9, 90);
-    weapons fusion_sowrd("Fusion sowrd", "Megatron", 18, 70);
-    weapons tank_mode("Tank mode", "Megatron" , 60 ,15);
+    
+    weapon fusion_canon("Fusion canon", 9, 90);
+    weapon fusion_sowrd("Fusion sowrd", 18, 70);
+    weapon tank_mode("Tank mode", 60 ,15);
 
     // while (optimus.is_alive() && megatron.is_alive()) {
 
