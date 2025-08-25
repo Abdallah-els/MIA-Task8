@@ -15,12 +15,14 @@ public:
 };
 
 class transformer { //abstract class
-private:
-    int weapon_level;
 
 protected:
     int health;
     string name;
+    
+    int choose_weapon(){
+        return rand() % 3; // choose a weapon randomly
+    }
 
 public:
     // Constructor to initialize 
@@ -37,39 +39,38 @@ public:
         cout << name << "attacked!" << endl;
     }
 
-    virtual void attack(transformer &target) {}
+    virtual void attack(transformer &target) = 0; // the "&" is to pass the reference and not a copy 
 
-    void choose_weapon(){
-        while (weapon_level > 3){ // choose a weapon randomly
-            int weapon_level = rand() % 10 + 1; 
-        }
-
-    }
 };
 
 class optimus : public transformer{
 
-weapon weapons[3];
+weapon weapons_list[3];
 
 public:
     optimus() 
     : transformer("Optimus Prime"), 
-    weapons{weapon("Ion rifle", 6 , 100), weapon("Energon swords" , 12, 80), weapon("Shoulder canon" , 45, 25)} 
+    weapons_list{weapon("Ion rifle", 6 , 100), weapon("Energon swords" , 12, 80), weapon("Shoulder canon" , 45, 25)} 
     {}
 
-
+    void attack(transformer &target) override{
+        weapons_list[choose_weapon()];
+    }
 };
 
 class mega : public transformer{
 
-weapon weapons[3];
+weapon weapons_list[3];
 
 public:
     mega()
-     : transformer("Megatron"),
-    weapons{weapon("Fusion canon", 9, 90), weapon("Fusion sowrd", 18, 70), weapon("Tank mode", 60 ,15)} 
+    : transformer("Megatron"),
+    weapons_list{weapon("Fusion canon", 9, 90), weapon("Fusion sowrd", 18, 70), weapon("Tank mode", 60 ,15)} 
     {}
 
+    void attack(transformer &target) override{
+        weapons_list[choose_weapon()];
+    }
 };
 
 
@@ -83,11 +84,6 @@ int main() {
     
     optimus optimus_prime;
     mega megatron;
-
-    
-    weapon fusion_canon("Fusion canon", 9, 90);
-    weapon fusion_sowrd("Fusion sowrd", 18, 70);
-    weapon tank_mode("Tank mode", 60 ,15);
 
     // while (optimus.is_alive() && megatron.is_alive()) {
 
