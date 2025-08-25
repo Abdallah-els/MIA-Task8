@@ -9,6 +9,7 @@ public:
     int damage;
     int accuracy;
 
+    weapon(){}
     weapon(string name, int damage , int accuracy) : name(name), damage(damage), accuracy(accuracy) {}
 
 
@@ -16,7 +17,7 @@ public:
 
 class transformer { //abstract class
 
-protected:
+public:
     int health;
     string name;
     
@@ -34,18 +35,23 @@ public:
 
     void take_damage(int damage) {
         health -= damage;
+        if (health < 0) health = 0; 
     }
-    void display(){
-        cout << name << "attacked!" << endl;
-    }
+    virtual void display(transformer &target) = 0;
 
     virtual void attack(transformer &target) = 0; // the "&" is to pass the reference and not a copy 
 
+    bool possibilty(int chance) {
+    int rand_number =  rand() % 100 + 1; //Random number between 1 and 100
+    return rand_number <= chance;
+}
 };
 
 class optimus : public transformer{
 
 weapon weapons_list[3];
+weapon power;
+
 
 public:
     optimus() 
@@ -53,31 +59,64 @@ public:
     weapons_list{weapon("Ion rifle", 6 , 100), weapon("Energon swords" , 12, 80), weapon("Shoulder canon" , 45, 25)} 
     {}
 
-    void attack(transformer &target) override{
-        weapons_list[choose_weapon()];
+    void display(transformer &target){
+        cout << name << " hit " << target.name << " with " << power.name << "!!" << endl;
+        cout << target.name << " health is " << target.health << endl;
+        if (! is_alive()){
+            cout << target.name << " is dead. " << name << " won" << endl;
+        }
     }
+
+
+    void attack(transformer &target) override{
+        power = weapons_list[choose_weapon()];
+        if (possibilty(power.accuracy) == true){
+            target.take_damage(power.damage);
+            display(target);
+        }
+        else{
+            cout << name << " missed!" << endl;
+        }
+    }
+
+
 };
 
 class mega : public transformer{
 
 weapon weapons_list[3];
+weapon power;
 
 public:
     mega()
     : transformer("Megatron"),
-    weapons_list{weapon("Fusion canon", 9, 90), weapon("Fusion sowrd", 18, 70), weapon("Tank mode", 60 ,15)} 
+    weapons_list{weapon("Fusion canon", 9, 90), weapon("Fusion sword", 18, 70), weapon("Tank mode", 60 ,15)} 
     {}
 
-    void attack(transformer &target) override{
-        weapons_list[choose_weapon()];
+    void display(transformer &target){
+        cout << name << " hit " << target.name << " with " << power.name << "!!" << endl;
+        cout << target.name << " health is " << target.health << endl;
+        if (! is_alive()){
+            cout << target.name << " is dead. " << name << " won" << endl;
+        }
     }
+
+
+    void attack(transformer &target) override{
+        power = weapons_list[choose_weapon()];
+        if (possibilty(power.accuracy) == true){
+            target.take_damage(power.damage);
+            display(target);
+        }
+        else{
+            cout << name << " missed!" << endl;
+        }
+    }
+
 };
 
 
-bool possibilty(int chance) {
-    int rand_number =  rand() % 100 + 1; //Random number between 1 and 100
-    return rand_number <= chance;
-}
+
 
 int main() {
     srand(time(0));  // Initialize random number generator
@@ -85,13 +124,13 @@ int main() {
     optimus optimus_prime;
     mega megatron;
 
-    // while (optimus.is_alive() && megatron.is_alive()) {
+    while (optimus_prime.is_alive() && megatron.is_alive()) {
 
-    //     optimus.attack(megatron);
-    //     if (megatron.is_alive()) {
-    //         megatron.attack(optimus);
-    //     }
-    // }
+        optimus_prime.attack(megatron);
+        if (megatron.is_alive()) {
+            megatron.attack(optimus_prime);
+        }
+    }
 
     return 0;
 }
